@@ -2,6 +2,8 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+import CartIcon from './CartIcon'
+import Cart from './Cart'
 
 export default function NavBar() {
   const pathname = usePathname()
@@ -14,7 +16,7 @@ export default function NavBar() {
         <Link href="/" className="text-lg font-semibold tracking-wide text-white">
           TGS Porch
         </Link>
-        <div className="flex gap-8">
+        <div className="flex items-center gap-8">
           <Link
             href="/concert"
             className={`text-xs tracking-widest uppercase transition-colors ${
@@ -39,7 +41,10 @@ export default function NavBar() {
           >
             About
           </Link>
+          <CartIcon />
         </div>
+      </div>
+      <Cart />
       </div>
     </nav>
   )
