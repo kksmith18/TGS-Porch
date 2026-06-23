@@ -42,6 +42,9 @@ export default async function Home() {
                   sizes="(max-width: 768px) 50vw, 33vw"
                   className="object-cover"
                 />
+                <div className="absolute inset-0 flex items-end justify-end p-2 pointer-events-none select-none">
+                  <span className="text-white/30 text-[10px] tracking-wide">© Thomas G. Smith</span>
+                </div>
               </Link>
             ))}
           </div>
