@@ -5,6 +5,14 @@ import { NextResponse } from 'next/server'
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!)
 const resend = new Resend(process.env.RESEND_API_KEY!)
 
+type OrderItem = {
+  subject: string
+  type: string
+  size?: string
+  frame?: string
+  price: string
+}
+
 export async function POST(req: Request) {
   const body = await req.text()
   const sig = req.headers.get('stripe-signature')!
@@ -12,7 +20,7 @@ export async function POST(req: Request) {
   let event: Stripe.Event
   try {
     event = stripe.webhooks.constructEvent(body, sig, process.env.STRIPE_WEBHOOK_SECRET!)
-  } catch (err) {
+  } catch {
     return NextResponse.json({ error: 'Webhook signature invalid' }, { status: 400 })
   }
 
@@ -20,34 +28,50 @@ export async function POST(req: Request) {
     return NextResponse.json({ received: true })
   }
 
-  const session = event.data.object as Stripe.Checkout.Session & { shipping_details?: Stripe.Checkout.Session.ShippingDetails | null }
-  const customerEmail = session.customer_details?.email ?? 'Unknown'
-  const customerName = session.customer_details?.name ?? 'Customer'
-  const items = JSON.parse(session.metadata?.items ?? '[]')
-  const note = session.metadata?.note ?? ''
-  const shipping = session.shipping_details
-  const total = session.amount_total ? `$${(session.amount_total / 100).toFixed(2)}` : 'N/A'
+  // Use unknown then narrow — avoids Stripe SDK type version issues
+  const raw = event.data.object as unknown as Record<string, unknown>
 
-  const itemsHtml = items.map((item: { subject: string; type: string; size?: string; frame?: string; price: string }) => `
+  const customerDetails = raw.customer_details as { email?: string; name?: string } | null
+  const customerEmail = customerDetails?.email ?? 'Unknown'
+  const customerName = customerDetails?.name ?? 'Customer'
+
+  const metadata = raw.metadata as Record<string, string> | null
+  const items: OrderItem[] = JSON.parse(metadata?.items ?? '[]')
+  const note = metadata?.note ?? ''
+
+  const amountTotal = raw.amount_total as number | null
+  const total = amountTotal ? `$${(amountTotal / 100).toFixed(2)}` : 'N/A'
+
+  const shippingDetails = raw.shipping_details as {
+    address?: {
+      line1?: string
+      line2?: string
+      city?: string
+      state?: string
+      postal_code?: string
+      country?: string
+    }
+  } | null
+
+  const itemsHtml = items.map(item => `
     <tr>
       <td style="padding:6px 0;color:#ccc;">${item.subject}</td>
-      <td style="padding:6px 0;color:#ccc;">${item.type === 'digital' ? 'Digital Download' : `${item.size} Print${item.frame ? ` · ${item.frame}` : ''}`}</td>
+      <td style="padding:6px 0;color:#ccc;">${item.type === 'digital' ? 'Digital Download' : `${item.size ?? ''} Print${item.frame ? ` · ${item.frame}` : ''}`}</td>
       <td style="padding:6px 0;color:#ccc;text-align:right;">${item.price}</td>
     </tr>
   `).join('')
 
-  const shippingHtml = shipping
+  const shippingHtml = shippingDetails?.address
     ? `<p style="color:#ccc;">
-        ${shipping.address?.line1 ?? ''}<br/>
-        ${shipping.address?.line2 ? shipping.address.line2 + '<br/>' : ''}
-        ${shipping.address?.city ?? ''}, ${shipping.address?.state ?? ''} ${shipping.address?.postal_code ?? ''}<br/>
-        ${shipping.address?.country ?? ''}
+        ${shippingDetails.address.line1 ?? ''}<br/>
+        ${shippingDetails.address.line2 ? shippingDetails.address.line2 + '<br/>' : ''}
+        ${shippingDetails.address.city ?? ''}, ${shippingDetails.address.state ?? ''} ${shippingDetails.address.postal_code ?? ''}<br/>
+        ${shippingDetails.address.country ?? ''}
       </p>`
     : '<p style="color:#999;">Digital only — no shipping needed.</p>'
 
-  // Email to dad
   await resend.emails.send({
-    from: `TGS Porch Orders <orders@tgsporch.com>`,
+    from: 'TGS Porch Orders <orders@tgsporch.com>',
     to: process.env.DAD_EMAIL!,
     subject: `New Order — ${total} from ${customerName}`,
     html: `
@@ -72,11 +96,10 @@ export async function POST(req: Request) {
     `,
   })
 
-  // Confirmation email to buyer
   await resend.emails.send({
-    from: `Thomas G. Smith <orders@tgsporch.com>`,
+    from: 'Thomas G. Smith <orders@tgsporch.com>',
     to: customerEmail,
-    subject: `Order Confirmed — TGS Porch`,
+    subject: 'Order Confirmed — TGS Porch',
     html: `
       <div style="background:#0a0a0a;color:#fff;font-family:Arial,sans-serif;padding:32px;max-width:600px;">
         <h2 style="color:#fff;font-weight:300;letter-spacing:4px;text-transform:uppercase;margin-bottom:8px;">Thank You</h2>
@@ -91,12 +114,8 @@ export async function POST(req: Request) {
         </table>
         <div style="border-top:1px solid #333;padding-top:16px;margin-top:8px;">
           <p style="color:#999;font-size:13px;">
-            ${items.some((i: { type: string }) => i.type === 'digital')
-              ? '📁 <strong style="color:#fff;">Digital files</strong> will be sent to this email within 24 hours.<br/>'
-              : ''}
-            ${items.some((i: { type: string }) => i.type === 'print')
-              ? '📦 <strong style="color:#fff;">Physical prints</strong> will be shipped within 5–7 business days.'
-              : ''}
+            ${items.some(i => i.type === 'digital') ? '📁 <strong style="color:#fff;">Digital files</strong> will be sent to this email within 24 hours.<br/>' : ''}
+            ${items.some(i => i.type === 'print') ? '📦 <strong style="color:#fff;">Physical prints</strong> will be shipped within 5–7 business days.' : ''}
           </p>
           ${note ? `<p style="color:#777;font-size:12px;">Your note: "${note}"</p>` : ''}
         </div>

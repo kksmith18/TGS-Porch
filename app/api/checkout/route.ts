@@ -35,11 +35,11 @@ export async function POST(req: Request) {
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
       line_items: lineItems,
-      ...(hasPhysical && { shipping_address_collection: { allowed_countries: ['US', 'CA'] } }),
-      custom_fields: note ? [] : [],
-      custom_text: {
-        submit: { message: 'Your order will be fulfilled personally by Thomas G. Smith.' },
-      },
+      ...(hasPhysical && {
+        shipping_address_collection: {
+          allowed_countries: ['US', 'CA'] as Stripe.Checkout.SessionCreateParams.ShippingAddressCollection.AllowedCountry[],
+        },
+      }),
       metadata: {
         items: JSON.stringify(items.map(i => ({
           subject: i.photoSubject ?? i.photoTitle ?? 'Photo',
