@@ -6,7 +6,7 @@ import NavBar from '@/components/NavBar'
 const geist = Geist({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: "TGS Porch — Photography",
+  title: "TGS Porch — Thomas G. Smith Photography",
   description: 'Concert and nature photography',
 }
 

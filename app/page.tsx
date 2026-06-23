@@ -18,7 +18,7 @@ export default async function Home() {
     <div className="flex flex-col items-center min-h-[70vh]">
       <div className="text-center mt-16 mb-12">
         <h1 className="text-5xl md:text-7xl font-light tracking-widest uppercase mb-4">
-          Thomas Smith
+          Thomas G. Smith
         </h1>
         <p className="text-white/40 text-xs tracking-widest uppercase">
           Concert &amp; Nature Photography

@@ -70,7 +70,7 @@ export default function Lightbox({ photos, bucketUrl, startIndex, onClose }: Lig
           </p>
         )}
         <div className="absolute inset-0 flex items-end justify-end p-4 pointer-events-none select-none">
-          <span className="text-white/25 text-xs tracking-wide">© Thomas Smith</span>
+          <span className="text-white/25 text-xs tracking-wide">© Thomas G. Smith</span>
         </div>
       </div>
 

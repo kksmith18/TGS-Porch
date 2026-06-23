@@ -11,7 +11,7 @@ export default function AboutPage() {
       <div className="relative w-full aspect-[4/3] mb-12 overflow-hidden">
         <Image
           src="/about.jpg"
-          alt="Thomas Smith"
+          alt="Thomas G. Smith"
           fill
           className="object-cover"
           sizes="(max-width: 768px) 100vw, 672px"
@@ -23,7 +23,7 @@ export default function AboutPage() {
           Edit the name and tagline below.
       ──────────────────────────────────────────────────────────────────── */}
       <h1 className="text-3xl font-light tracking-widest uppercase mb-2">
-        Thomas Smith
+        Thomas G. Smith
       </h1>
       <p className="text-white/40 text-xs tracking-widest uppercase mb-10">
         Concert &amp; Nature Photographer
