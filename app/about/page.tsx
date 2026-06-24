@@ -39,8 +39,38 @@ export default function AboutPage() {
         </p>
       </div>
 
-      {/* Prints section */}
-      <div className="mt-14 border-t border-white/10 pt-10">
+      {/* ── KYLE'S SECTION ────────────────────────────────────────────────
+          Place your photo in site/public/ named "kyle.jpg"
+      ──────────────────────────────────────────────────────────────────── */}
+      <div className="mt-16 border-t border-white/10 pt-12">
+        <div className="relative w-48 h-48 mb-8 overflow-hidden rounded-full">
+          <Image
+            src="/kyle.jpg"
+            alt="Kyle Smith"
+            fill
+            className="object-cover"
+            sizes="192px"
+          />
+        </div>
+
+        <h2 className="text-2xl font-light tracking-widest uppercase mb-2">
+          Kyle Smith
+        </h2>
+        <p className="text-white/40 text-xs tracking-widest uppercase mb-8">
+          Developer &amp; Thomas G. Smith&apos;s Son
+        </p>
+
+        <div className="text-white/70 text-sm leading-7">
+          <p>
+            I&apos;m a Computer Science and Business graduate from Lehigh University and the developer
+            behind TGS Porch. I built this site so my dad could finally share his life&apos;s work
+            with the world!
+          </p>
+        </div>
+      </div>
+
+      {/* ── PRINTS SECTION ──────────────────────────────────────────────── */}
+      <div className="mt-16 border-t border-white/10 pt-10">
         <h2 className="text-xs tracking-widest uppercase text-white/40 mb-6">
           Prints &amp; Digital Downloads
         </h2>
@@ -66,36 +96,6 @@ export default function AboutPage() {
             >
               contact@tgsporch.com
             </a>
-          </p>
-        </div>
-      </div>
-
-      {/* ── KYLE'S SECTION ────────────────────────────────────────────────
-          Place your photo in site/public/ named "kyle.jpg"
-      ──────────────────────────────────────────────────────────────────── */}
-      <div className="mt-20 border-t border-white/10 pt-14">
-        <div className="relative w-48 h-48 mb-8 overflow-hidden rounded-full">
-          <Image
-            src="/kyle.jpg"
-            alt="Kyle Smith"
-            fill
-            className="object-cover"
-            sizes="192px"
-          />
-        </div>
-
-        <h2 className="text-2xl font-light tracking-widest uppercase mb-2">
-          Kyle Smith
-        </h2>
-        <p className="text-white/40 text-xs tracking-widest uppercase mb-8">
-          Developer &amp; Thomas G. Smith&apos;s Son
-        </p>
-
-        <div className="space-y-4 text-white/70 text-sm leading-7">
-          <p>
-            I&apos;m a Computer Science and Business graduate from Lehigh University and the developer
-            behind TGS Porch. I built this site so my dad could finally share his life&apos;s work
-            with the world!
           </p>
         </div>
       </div>
