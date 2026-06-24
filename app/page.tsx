@@ -65,6 +65,14 @@ export default async function Home() {
           Nature
         </Link>
       </div>
+
+      <p className="text-white/35 text-xs text-center max-w-sm mt-12 leading-6">
+        Looking for a band you don&apos;t see on the site? Reach out at{' '}
+        <a href="mailto:tgsporch@aol.com" className="text-white/50 hover:text-white transition-colors underline underline-offset-4">
+          tgsporch@aol.com
+        </a>
+        {' '}— I&apos;m sure I have something somewhere!
+      </p>
     </div>
   )
 }
