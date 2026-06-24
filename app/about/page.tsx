@@ -4,9 +4,8 @@ export default function AboutPage() {
   return (
     <div className="max-w-2xl mx-auto py-16 px-4">
 
-      {/* ── PHOTO ─────────────────────────────────────────────────────────
-          Place your photo in site/public/ named "about.jpg"
-          Change width/height if your photo has different proportions.
+      {/* ── TOM'S PHOTO ───────────────────────────────────────────────────
+          Place your dad's photo in site/public/ named "about.jpg"
       ──────────────────────────────────────────────────────────────────── */}
       <div className="relative w-full aspect-[4/3] mb-12 overflow-hidden">
         <Image
@@ -19,9 +18,6 @@ export default function AboutPage() {
         />
       </div>
 
-      {/* ── NAME & TAGLINE ────────────────────────────────────────────────
-          Edit the name and tagline below.
-      ──────────────────────────────────────────────────────────────────── */}
       <h1 className="text-3xl font-light tracking-widest uppercase mb-2">
         Thomas G. Smith
       </h1>
@@ -29,10 +25,6 @@ export default function AboutPage() {
         Concert &amp; Nature Photographer
       </p>
 
-      {/* ── BIO ───────────────────────────────────────────────────────────
-          Replace this paragraph with your dad's actual bio.
-          You can add more <p> tags below it for additional paragraphs.
-      ──────────────────────────────────────────────────────────────────── */}
       <div className="space-y-5 text-white/70 text-sm leading-7">
         <p>
           My name is Tom, and I&apos;m a photographer based in Rochester, NY. For over 40 years
@@ -47,9 +39,7 @@ export default function AboutPage() {
         </p>
       </div>
 
-      {/* ── PRINTS SECTION ────────────────────────────────────────────────
-          Edit the pricing and details below to match what your dad wants to charge.
-      ──────────────────────────────────────────────────────────────────── */}
+      {/* Prints section */}
       <div className="mt-14 border-t border-white/10 pt-10">
         <h2 className="text-xs tracking-widest uppercase text-white/40 mb-6">
           Prints &amp; Digital Downloads
@@ -70,13 +60,42 @@ export default function AboutPage() {
           <p>
             <span className="text-white">Custom Framing</span> — Want it framed or need a
             specific size? Reach out directly and Tom will work with you on the details.{' '}
-            {/* ── Replace with Tom's actual email once tgsporch.com is set up ── */}
             <a
               href="mailto:contact@tgsporch.com"
               className="text-white underline underline-offset-4 hover:text-white/70 transition-colors"
             >
               contact@tgsporch.com
             </a>
+          </p>
+        </div>
+      </div>
+
+      {/* ── KYLE'S SECTION ────────────────────────────────────────────────
+          Place your photo in site/public/ named "kyle.jpg"
+      ──────────────────────────────────────────────────────────────────── */}
+      <div className="mt-20 border-t border-white/10 pt-14">
+        <div className="relative w-48 h-48 mb-8 overflow-hidden rounded-full">
+          <Image
+            src="/kyle.jpg"
+            alt="Kyle Smith"
+            fill
+            className="object-cover"
+            sizes="192px"
+          />
+        </div>
+
+        <h2 className="text-2xl font-light tracking-widest uppercase mb-2">
+          Kyle Smith
+        </h2>
+        <p className="text-white/40 text-xs tracking-widest uppercase mb-8">
+          Developer &amp; Thomas G. Smith&apos;s Son
+        </p>
+
+        <div className="space-y-4 text-white/70 text-sm leading-7">
+          <p>
+            I&apos;m a Computer Science and Business graduate from Lehigh University and the developer
+            behind TGS Porch. I built this site so my dad could finally share his life&apos;s work
+            with the world!
           </p>
         </div>
       </div>
