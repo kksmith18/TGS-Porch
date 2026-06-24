@@ -43,13 +43,13 @@ export default function AboutPage() {
           Place your photo in site/public/ named "kyle.jpg"
       ──────────────────────────────────────────────────────────────────── */}
       <div className="mt-16 border-t border-white/10 pt-12">
-        <div className="relative w-48 h-48 mb-8 overflow-hidden rounded-full">
+        <div className="relative w-full aspect-[4/3] mb-12 overflow-hidden">
           <Image
             src="/kyle.jpg"
             alt="Kyle Smith"
             fill
             className="object-cover"
-            sizes="192px"
+            sizes="(max-width: 768px) 100vw, 672px"
           />
         </div>
 
