@@ -10,7 +10,7 @@ export default async function Home() {
     .from('photos')
     .select('id, title, subject, file_path, category')
     .eq('featured', true)
-    .order('uploaded_at', { ascending: false })
+    .order('featured_order', { ascending: true })
 
   const bucketUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/photos`
 
